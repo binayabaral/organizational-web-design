@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  deploy:
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - checkout
+      - run:
+          name: Deploy to S3
+          command: |
+            sudo apt update -y
+            sudo apt install awscli -y
+            #Sync S3 bucket
+            aws s3 sync . s3://s3.binaya.bibek-mishra.com.np --exclude .circleci
+workflows:
+  version: 2
+  deploy_api:
+    jobs:
+      - deploy
+            
